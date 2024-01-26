@@ -1,36 +1,100 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Navbar, Nav } from 'react-bootstrap';
-
-
-
-
-
-
-
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import { Navbar, Nav } from "react-bootstrap";
 
 const Home = () => {
+    const [products, setProducts] = useState(null);
+    const [categories, setCategories] = useState(null);
 
-    const [products, setProducts] = useState(null)
+    const [name, setName] = useState(null);
+    const [price, setPrice] = useState(null);
+    const [qty, setQty] = useState(null);
+    const [categoryId, setCategoryId] = useState(null);
 
-    const getProducts =  () => {
+    useEffect(() => {
+        getProducts();
+        getCategories();
+    },[])
+
+    const getProducts = () => {
         fetch("http://localhost:8081/products")
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setProducts(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const getCategories = () => {
+        fetch("http://localhost:8081/categories")
         .then((response) => {
             return response.json();
-        }).then((data) =>  {
-            setProducts(data);
-        }).catch((error) => {
+        })
+        .then((data) => {
+            setCategories(data);
+        })
+        .catch((error) => {
             console.log(error);
         })
     }
 
+    const handleName = (event) => {
+        setName(event.target.value);
+    }
 
-    
+    const handlePrice = (event) => {
+        setPrice(event.target.value);
+    }
+
+    const handleQty = (event) => {
+        setQty(event.target.value);
+    }
+
+    const handleCategory = (event) => {
+        setCategoryId(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = {
+            "name": name,
+            "qty": price,
+            "price": qty,
+            "categoryId":categoryId
+
+        }
+
+        fetch("http://localhost:8081/products", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setProducts([...products, data]);
+                setName(null);
+                setPrice(null);
+                setQty(null);
+                setCategoryId(null);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     const ProductCard = ({ product }) => {
-
         let navigate = useNavigate();
 
     const viewProductDetails = () => {
@@ -38,14 +102,16 @@ const Home = () => {
     };
 
         return (
-            <Card style={{ width: '18rem', margin: '10px' }}>
+            <Card style={{ width: "18rem", margin: "10px" }}>
                 <Card.Body>
                     <Card.Title>{product.name}</Card.Title>
                     <Card.Text>
                         ID: {product.id}
                         {/* Add other product details here */}
                     </Card.Text>
-                    <Button variant="primary" onClick={viewProductDetails} >View Details</Button>
+                    <Button variant="primary" onClick={viewProductDetails}>
+                        View Details
+                    </Button>
                 </Card.Body>
             </Card>
         );
@@ -53,22 +119,24 @@ const Home = () => {
 
     const NavigationBar = () => {
         return (
-           < Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">POS SYSTEM</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/">Home</Nav.Link>
-              <Nav.Link as={Link} to="/products">Products</Nav.Link>
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand href="#home">POS SYSTEM</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link as={Link} to="/">
+                            Home
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/products">
+                            Products
+                        </Nav.Link>
 
-              {/* Add more Nav.Link items here as needed */}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+                        {/* Add more Nav.Link items here as needed */}
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
         );
     }
-
-
 
     return (
         <>
@@ -79,12 +147,12 @@ const Home = () => {
             <ul>
                 <li>
                     <Link to="/products">Products</Link>
-
-                    
                 </li>
             </ul>
 
-            <button onClick={getProducts} className="btn btn-primary">Load Products</button>
+            <button onClick={getProducts} className="btn btn-primary">
+                Load Products
+            </button>
 
             {/* <ol>
                 {products && products.map((product) => (
@@ -93,15 +161,40 @@ const Home = () => {
             </ol> */}
 
             <div className="d-flex flex-wrap justify-content-start">
-                {products && products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-
-                    
-                ))}
+                {products &&
+                    products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
             </div>
-            
+
+            <form onSubmit={handleSubmit}>
+    <div className="mb-3">
+        <label htmlFor="productName" className="form-label">Product Name</label>
+        <input type="text" className="form-control" id="productName" required onChange={handleName}/>
+    </div>
+    <div className="mb-3">
+        <label htmlFor="productPrice" className="form-label">Product Price</label>
+        <input type="text" className="form-control" id="productPrice" required onChange={handlePrice}/>
+    </div>
+    <div className="mb-3">
+        <label htmlFor="productQty" className="form-label">Product Qty</label>
+        <input type="text" className="form-control" id="productQty" required onChange={handleQty}/>
+    </div>
+    <div className="mb-3">
+        <label htmlFor="productCategory" className="form-label">Category</label>
+        <select className="form-select" id="productCategory" required onChange={handleCategory}>
+            <option>Please Select</option>
+            {categories && categories.map((category) => (
+                <option key={category.id} value={category.id}>{category.name}</option>
+            ))}
+        </select>
+    </div>
+
+    <button type="submit" className="btn btn-primary">Save Product</button>
+</form>
+
         </>
-    )
-}
+    );
+};
 
 export default Home;

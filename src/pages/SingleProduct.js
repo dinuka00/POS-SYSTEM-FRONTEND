@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 const SingleProduct = () => {
 
@@ -26,9 +27,28 @@ const SingleProduct = () => {
         <>
             {product &&
                 <>
-                    <h1>{product.name}</h1>
+                    {/* <h1>{product.name}</h1>
                     <div>{product.price}</div>
-                    <div>Stock : {product.qty}</div>
+                    <div>Stock : {product.qty}</div> */}
+
+<Container>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title className="bg-primary text-white p-2">{product.name}</Card.Title>
+                            <Card.Text className="bg-light p-2">
+                                <strong>Price:</strong> {product.price}
+                            </Card.Text>
+                            <Card.Text className="bg-secondary text-white p-2">
+                                <strong>Stock:</strong> {product.qty}
+                            </Card.Text>
+                            <Button variant="primary" className="mt-2">Add to Cart</Button>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
                 </>
             }
 
