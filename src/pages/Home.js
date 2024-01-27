@@ -16,7 +16,7 @@ const Home = () => {
     useEffect(() => {
         getProducts();
         getCategories();
-    },[])
+    }, []);
 
     const getProducts = () => {
         fetch("http://localhost:8081/products")
@@ -29,47 +29,46 @@ const Home = () => {
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
 
     const getCategories = () => {
         fetch("http://localhost:8081/categories")
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            setCategories(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    }
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setCategories(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleName = (event) => {
         setName(event.target.value);
-    }
+    };
 
     const handlePrice = (event) => {
         setPrice(event.target.value);
-    }
+    };
 
     const handleQty = (event) => {
         setQty(event.target.value);
-    }
+    };
 
     const handleCategory = (event) => {
         setCategoryId(event.target.value);
-    }
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const data = {
-            "name": name,
-            "qty": price,
-            "price": qty,
-            "categoryId":categoryId
-
-        }
+            name: name,
+            qty: price,
+            price: qty,
+            categoryId: categoryId,
+        };
 
         fetch("http://localhost:8081/products", {
             method: "POST",
@@ -92,14 +91,14 @@ const Home = () => {
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
 
     const ProductCard = ({ product }) => {
         let navigate = useNavigate();
 
-    const viewProductDetails = () => {
-        navigate(`/products/${product.id}`);
-    };
+        const viewProductDetails = () => {
+            navigate(`/products/${product.id}`);
+        };
 
         return (
             <Card style={{ width: "18rem", margin: "10px" }}>
@@ -115,7 +114,7 @@ const Home = () => {
                 </Card.Body>
             </Card>
         );
-    }
+    };
 
     const NavigationBar = () => {
         return (
@@ -130,13 +129,16 @@ const Home = () => {
                         <Nav.Link as={Link} to="/products">
                             Products
                         </Nav.Link>
+                        <Nav.Link as={Link} to="/categories">
+                            Categories
+                        </Nav.Link>
 
                         {/* Add more Nav.Link items here as needed */}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
-    }
+    };
 
     return (
         <>
@@ -168,31 +170,70 @@ const Home = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-    <div className="mb-3">
-        <label htmlFor="productName" className="form-label">Product Name</label>
-        <input type="text" className="form-control" id="productName" required onChange={handleName}/>
-    </div>
-    <div className="mb-3">
-        <label htmlFor="productPrice" className="form-label">Product Price</label>
-        <input type="text" className="form-control" id="productPrice" required onChange={handlePrice}/>
-    </div>
-    <div className="mb-3">
-        <label htmlFor="productQty" className="form-label">Product Qty</label>
-        <input type="text" className="form-control" id="productQty" required onChange={handleQty}/>
-    </div>
-    <div className="mb-3">
-        <label htmlFor="productCategory" className="form-label">Category</label>
-        <select className="form-select" id="productCategory" required onChange={handleCategory}>
-            <option>Please Select</option>
-            {categories && categories.map((category) => (
-                <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-        </select>
-    </div>
+                <div className="mb-3">
+                    <label htmlFor="productName" className="form-label">
+                        Product Name
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="productName"
+                        required
+                        onChange={handleName}
+                        value={name}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="productPrice" className="form-label">
+                        Product Price
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="productPrice"
+                        required
+                        onChange={handlePrice}
+                        value={price}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="productQty" className="form-label">
+                        Product Qty
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="productQty"
+                        required
+                        onChange={handleQty}
+                        value={qty}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="productCategory" className="form-label">
+                        Category
+                    </label>
+                    <select
+                        className="form-select"
+                        id="productCategory"
+                        required
+                        onChange={handleCategory}
+                        value={categoryId}
+                    >
+                        <option>Please Select</option>
+                        {categories &&
+                            categories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
 
-    <button type="submit" className="btn btn-primary">Save Product</button>
-</form>
-
+                <button type="submit" className="form-button">
+                    Save Product
+                </button>
+            </form>
         </>
     );
 };
