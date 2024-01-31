@@ -9,8 +9,7 @@ const UpdateProduct = () => {
     const [product, setProduct] = useState({
         name: "",
         price: 0,
-        stock: 0
-        // Add other product fields as necessary
+        qty: 0
     });
 
     useEffect(() => {
@@ -22,7 +21,8 @@ const UpdateProduct = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProduct({ ...product, [name]: value });
+        const updatedValue = name === 'qty' || name === 'price' ? Number(value) : value;
+        setProduct({ ...product, [name]: updatedValue });
     };
 
     const handleSubmit = (e) => {
@@ -40,7 +40,10 @@ const UpdateProduct = () => {
     };
 
     return (
-        <Container>
+
+        <>
+            <NavigationBar/>
+            <Container>
             <h1>Update Product</h1>
             <Form onSubmit={handleSubmit}>
                 <Form.Group>
@@ -52,33 +55,35 @@ const UpdateProduct = () => {
                         onChange={handleChange}
                         required
                     />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
                         type="number"
                         name="price"
                         value={product.price || 0}
                         onChange={handleChange}
                         required
-                    />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Stock</Form.Label>
-                    <Form.Control
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Stock</Form.Label>
+                        <Form.Control
                         type="number"
-                        name="stock"
-                        value={product.stock || 0}
+                        name="qty"
+                        value={product.qty || 0}
                         onChange={handleChange}
                         required
-                    />
-                </Form.Group>
-                {/* Add more fields as necessary */}
-                <Button variant="primary" type="submit">
+                        />
+                    </Form.Group>
+                
+                    <Button variant="primary" type="submit">
                     Update Product
-                </Button>
-            </Form>
-        </Container>
+                    </Button>
+                </Form>
+            </Container>
+        </>
+        
     );
 };
 

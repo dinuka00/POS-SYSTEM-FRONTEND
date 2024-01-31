@@ -31,14 +31,13 @@ const SingleProduct = () => {
         navigate(`/products/update/${id}`)
     }
 
-    
-
     return (
         <>
             <NavigationBar/>
 
             {product && (
                 <>
+                
                     
 
                     <Container>
@@ -64,6 +63,8 @@ const SingleProduct = () => {
                                         >
                                             Edit
                                         </Button>
+
+                                        
                                     </Card.Body>
                                 </Card>
                             </Col>
