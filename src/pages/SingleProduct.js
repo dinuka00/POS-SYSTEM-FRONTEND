@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import NavigationBar from "./NavigationBar";
 
 const SingleProduct = () => {
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        getProductsById();
-    });
 
-    const getProductsById = () => {
+        const getProductsById = () => {
         fetch(`http://localhost:8081/products/${id}`)
             .then((response) => {
                 return response.json();
@@ -24,6 +24,14 @@ const SingleProduct = () => {
                 console.log(error);
             });
     };
+        getProductsById();
+    },[id]);
+
+    const handleEditProduct = () => {
+        navigate(`/products/update/${id}`)
+    }
+
+    
 
     return (
         <>
@@ -52,8 +60,9 @@ const SingleProduct = () => {
                                         <Button
                                             variant="primary"
                                             className="mt-2"
+                                            onClick={handleEditProduct}
                                         >
-                                            Add to Cart
+                                            Edit
                                         </Button>
                                     </Card.Body>
                                 </Card>

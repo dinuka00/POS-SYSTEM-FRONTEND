@@ -94,7 +94,7 @@ const Category = () => {
 
     const CategoryCard = ({ category }) => {
 
-        const navigate = useNavigate(); // Use useNavigate hook here
+        const navigate = useNavigate(); 
 
     // Function to handle the edit button click
     const handleEditCategory = () => {
@@ -116,7 +116,7 @@ const Category = () => {
                     </Button>
 
                     <Button variant="secondary" onClick={ () => handleEditCategory(category.id)} style={{marginLeft: '10px'}}>
-                    Update
+                    Edit
                     </Button>
 
                 </Card.Body>
