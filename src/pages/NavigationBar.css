@@ -1,0 +1,27 @@
+
+.custom-navbar {
+    background-color: #34568B; /* Dark blue background */
+    padding: 10px 0;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+    transition: color 0.2s;
+}
+
+.navbar-brand:hover {
+    color: #ffdd59 !important; /* Change hover color */
+}
+
+.nav-item {
+    margin-left: 15px;
+    color: #E4E6E7 !important; /* Light text color for nav links */
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-item:hover {
+    color: #ffdd59 !important; /* Change hover color */
+}

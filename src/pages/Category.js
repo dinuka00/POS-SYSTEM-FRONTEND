@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { Navbar, Nav } from "react-bootstrap";
+import { Container, Row, Col } from 'react-bootstrap';
 import product from "./Product";
 import NavigationBar from './NavigationBar'; 
 import UpdateCategory from './UpdateCategory';
@@ -116,7 +116,7 @@ const Category = () => {
                     </Button>
 
                     <Button variant="secondary" onClick={ () => handleEditCategory(category.id)} style={{marginLeft: '10px'}}>
-                    Edit
+                        Edit
                     </Button>
 
                 </Card.Body>
@@ -133,46 +133,59 @@ const Category = () => {
 
     return (
         <>
-            <NavigationBar/>
-            
+            <NavigationBar />
 
-            <h1>Category</h1>
+            <Container>
+                <Row>
+                    {/* Categories Section */}
+                    <Col md={8}>
+                        <h1>Categories</h1>
+                        <Row>
+                            {categories &&
+                                categories.map((category) => (
+                                    <Col md={6} key={category.id}>
+                                        <CategoryCard category={category} />
+                                    </Col>
+                                ))}
+                        </Row>
+                    </Col>
 
-            <div className="d-flex flex-wrap justify-content-start">
-                {categories &&
-                    categories.map((category) => (
-                        <CategoryCard key={category.id} category={category} />
-                    ))}
-            </div>
+                    {/* Form Section */}
+                    <Col md={4}>
+                        <h1>Add Category</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label htmlFor="categoryName" className="form-label">
+                                    Category Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="categoryName"
+                                    required
+                                    onChange={handleName}
+                                    value={name}
+                                />
+                            </div>
 
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="categoryName" className="form-label">
-                        Category Name
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="categoryName"
-                        required
-                        onChange={handleName}
-                        value={name}
-                    />
-                </div>
-                
+                            <button type="submit" className="btn btn-primary">
+                                Save Category
+                            </button>
+                        </form>
+                    </Col>
+                </Row>
 
-                <button type="submit" className="form-button">
-                    Save Category
-                </button>
-            </form>
-
-            <ol>
-    {Array.isArray(products) && products.map((product) => (
-        <li key={product.id}><Link to={`products/${product.id}`}>{product.name}</Link></li>
-    ))}
-</ol>
-
-            
+                <Row className="mt-4">
+                    <Col>
+                        <h2>Products</h2>
+                        <ol>
+                            {Array.isArray(products) && products.map((product) => (
+                                <li key={product.id}><Link to={`products/${product.id}`}>{product.name}</Link></li>
+                            ))}
+                        </ol>
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 }

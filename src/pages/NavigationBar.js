@@ -1,19 +1,27 @@
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav , Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import './NavigationBar.css';
 
 const NavigationBar = () => {
     return (
-        <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">POS SYSTEM</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                    <Nav.Link as={Link} to="/">Home</Nav.Link>
-                    <Nav.Link as={Link} to="/products">Products</Nav.Link>
-                    <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
-                    {/* Add more Nav.Link items here as needed */}
-                </Nav>
-            </Navbar.Collapse>
+        <Navbar expand="lg" className="custom-navbar mb-4">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="navbar-brand">POS SYSTEM</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ms-auto">
+                        <Nav.Link as={Link} to="/" className="nav-item">
+                            Products
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/categories" className="nav-item">
+                            Categories
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/checkout" className="nav-item">
+                            Checkout
+                        </Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
         </Navbar>
     );
 };

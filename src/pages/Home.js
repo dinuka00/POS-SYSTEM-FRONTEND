@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import { Navbar, Nav } from "react-bootstrap";
+/* import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button"; */
+import { Navbar, Nav , Container, Row, Col, Form , Button , Card} from "react-bootstrap";
 import NavigationBar from './NavigationBar'; 
 
 const Home = () => {
@@ -122,96 +122,51 @@ const Home = () => {
         <>
             <NavigationBar />
 
-            <h1>Home</h1>
+            <Container className="mt-5">
+                
 
-            <ul>
-                <li>
-                    <Link to="/products">Products</Link>
-                </li>
-            </ul>
-
-            <button onClick={getProducts} className="btn btn-primary">
-                Load Products
-            </button>
-
-            {/* <ol>
-                {products && products.map((product) => (
-                    <li>{product.id} - {product.name}</li>
-                ))}
-            </ol> */}
-
-            <div className="d-flex flex-wrap justify-content-start">
-                {products &&
-                    products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-            </div>
-
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="productName" className="form-label">
-                        Product Name
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="productName"
-                        required
-                        onChange={handleName}
-                        value={name}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="productPrice" className="form-label">
-                        Product Price
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="productPrice"
-                        required
-                        onChange={handlePrice}
-                        value={price}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="productQty" className="form-label">
-                        Product Qty
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="productQty"
-                        required
-                        onChange={handleQty}
-                        value={qty}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="productCategory" className="form-label">
-                        Category
-                    </label>
-                    <select
-                        className="form-select"
-                        id="productCategory"
-                        required
-                        onChange={handleCategory}
-                        value={categoryId}
-                    >
-                        <option>Please Select</option>
-                        {categories &&
-                            categories.map((category) => (
-                                <option key={category.id} value={category.id}>
-                                    {category.name}
-                                </option>
+                <Row>
+                
+                    <Col md={8}>
+                        <Row>
+                        <h1 className="mb-4">Products</h1>
+                            {products && products.map((product) => (
+                                <ProductCard key={product.id} product={product} />
                             ))}
-                    </select>
-                </div>
+                        </Row>
+                    </Col>
 
-                <button type="submit" className="form-button">
-                    Save Product
-                </button>
-            </form>
+                    <Col md={4}>
+                        <h2 className="mb-4 text-center">Add New Product</h2>
+                        <Form onSubmit={handleSubmit} className="border p-4 rounded">
+                            <Form.Group className="mb-3">
+                                <Form.Label>Product Name</Form.Label>
+                                <Form.Control type="text" required onChange={handleName} value={name} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Product Price</Form.Label>
+                                <Form.Control type="number" required onChange={handlePrice} value={price} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Product Qty</Form.Label>
+                                <Form.Control type="number" required onChange={handleQty} value={qty} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select required onChange={handleCategory} value={categoryId}>
+                                    <option value="">Please Select</option>
+                                    {categories && categories.map((category) => (
+                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                            <div className="d-grid">
+                                <Button variant="success" type="submit">Save Product</Button>
+                            </div>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 };
