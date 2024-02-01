@@ -10,6 +10,7 @@ import Category from './pages/Category';
 import SingleCategory from './pages/SingleCategory';
 import UpdateCategory from './pages/UpdateCategory';
 import UpdateProduct from './pages/UpdateProduct';
+import Checkout from './pages/Checkout';
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
                 <Route path="/categories/:categoryId" element={<UpdateCategory />} /> 
                 <Route path="/categories/:categoryId/products" element={<SingleCategory />} />
                 <Route path="/products/update/:productId" element={<UpdateProduct />} />
+                <Route path="/checkout" element={<Checkout/>} />
 
             </Routes>
         </BrowserRouter>
