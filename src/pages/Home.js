@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-/* import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button"; */
 import { Navbar, Nav , Container, Row, Col, Form , Button , Card} from "react-bootstrap";
 import NavigationBar from './NavigationBar'; 
+import axios from "axios";
 
 const Home = () => {
     const [products, setProducts] = useState(null);
@@ -19,30 +18,34 @@ const Home = () => {
         getCategories();
     }, []);
 
-    const getProducts = () => {
-        fetch("http://localhost:8081/products")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setProducts(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const navigate = useNavigate();
+
+    const getProducts = async () => {
+
+        
+
+        try {
+            const response = await axios.get("http://localhost:8081/products");
+            setProducts(response.data);
+
+        } catch (error) {
+            if(error.response.status === 401) {
+                navigate("/login");
+            }
+        }
     };
 
-    const getCategories = () => {
-        fetch("http://localhost:8081/categories")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const getCategories = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/categories");
+            setCategories(response.data);
+
+        } catch (error) {
+            if(error.response.status === 401) {
+                navigate("/login");
+            }
+        }
+        
     };
 
     const handleName = (event) => {
@@ -61,7 +64,7 @@ const Home = () => {
         setCategoryId(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const data = {
@@ -71,27 +74,27 @@ const Home = () => {
             categoryId: categoryId,
         };
 
-        fetch("http://localhost:8081/products", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setProducts([...products, data]);
-                setName(null);
-                setPrice(null);
-                setQty(null);
-                setCategoryId(null);
-            })
-            .catch((error) => {
-                console.log(error);
+        try {
+            const response = await axios.post("http://localhost:8081/products", data, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                }
             });
+    
+            if (response.status === 200 || response.status === 201) {
+                setProducts([...products, response.data]);
+                alert("product added");
+                setName('');
+                setPrice('');
+                setQty('');
+                setCategoryId('');
+            } else {
+                console.log(response); 
+            }
+        } catch (error) {
+            console.error("Error creating product: ", error);
+        }
     };
 
     const ProductCard = ({ product }) => {

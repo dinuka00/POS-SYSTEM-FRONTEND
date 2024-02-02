@@ -6,6 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import product from "./Product";
 import NavigationBar from './NavigationBar'; 
 import UpdateCategory from './UpdateCategory';
+import axios from "axios";
 
 const Category = () => {
 
@@ -26,17 +27,12 @@ const Category = () => {
        // getProductByCategory();
     }, []);
 
-    const getCategories = () => {
-        fetch("http://localhost:8081/categories")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const getCategories =  async () => {
+
+        const response = await axios.get("http://localhost:8081/categories");
+
+        setCategories(response.data);
+
     };
 
     const handleName = (event) => {
@@ -45,45 +41,37 @@ const Category = () => {
 
     
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const data = {
             name: name,
         };
 
-        fetch("http://localhost:8081/categories", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setCategories([...categories, data]);
-                setName('');
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        const response = await axios.post("http://localhost:8081/categories", data);
+        setCategories([...categories, data]);
+        setName('');
+
+
+        
     };
 
     const navigate = useNavigate();
 
-    const getProductByCategory = (categoryId) => {
-        fetch(`http://localhost:8081/categories/${params.id}/products`)
-            .then((response) => {
-                return response.json();
-            }).then((data) => {
-                setProducts(data);
-                navigate(`/categories/${categoryId}/products`);
-            }) .catch(error => {
-                console.log(error);
-            })
+    const getProductByCategory = async (categoryId) => {
+
+        try {
+            const response = await axios.get(`http://localhost:8081/categories/${categoryId}/products`);
+    
+            setProducts(response.data);
+            navigate(`/categories/${categoryId}/products`);
+        } catch (error) {
+            console.error(error);
+        }
+
+        
+
+
 
             
     }

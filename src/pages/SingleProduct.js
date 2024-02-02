@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import NavigationBar from "./NavigationBar";
+import axios from "axios";
 
 const SingleProduct = () => {
     const { id } = useParams();
@@ -12,17 +13,14 @@ const SingleProduct = () => {
 
     useEffect(() => {
 
-        const getProductsById = () => {
-        fetch(`http://localhost:8081/products/${id}`)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setProduct(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const getProductsById = async () => {
+
+            try {
+                const response = await axios.get(`http://localhost:8081/products/${id}`);
+                setProduct(response.data);
+            } catch (error) {
+                console.error(error);
+            }
     };
         getProductsById();
     },[id]);

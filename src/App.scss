@@ -3,7 +3,10 @@ $primary: #f8bf02;
 
 // form-styles.scss
 
-
+.login-box{
+    max-width: 600px;
+    margin: 0 auto;
+}
 
 
 @import '~bootstrap/scss/bootstrap';

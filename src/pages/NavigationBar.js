@@ -1,8 +1,23 @@
 import { Navbar, Nav , Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavigationBar.css';
 
+
+
+
+
 const NavigationBar = () => {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+
+    
+    
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
+
     return (
         <Navbar expand="lg" className="custom-navbar mb-4">
             <Container>
@@ -19,6 +34,10 @@ const NavigationBar = () => {
                         <Nav.Link as={Link} to="/checkout" className="nav-item">
                             Checkout
                         </Nav.Link>
+                        <Nav.Link as={Link} to="/login" className="nav-item" onClick={handleLogout}>
+                            Logout
+                        </Nav.Link>
+                        
                     </Nav>
                 </Navbar.Collapse>
             </Container>

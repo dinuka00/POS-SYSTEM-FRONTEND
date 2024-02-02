@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Form, Container } from "react-bootstrap";
 import NavigationBar from './NavigationBar'
+import axios from "axios";
 
 const UpdateProduct = () => {
     const { productId } = useParams();
@@ -12,11 +13,22 @@ const UpdateProduct = () => {
         qty: 0
     });
 
-    useEffect(() => {
-        fetch(`http://localhost:8081/products/${productId}`)
-            .then(response => response.json())
-            .then(data => setProduct(data))
-            .catch(error => console.log(error));
+    useEffect(  () => {
+
+            const fetchProduct = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8081/products/${productId}`);
+                    setProduct(response.data);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+        
+            if (productId) { 
+                fetchProduct();
+            }
+
+
     }, [productId]);
 
     const handleChange = (e) => {
@@ -25,18 +37,31 @@ const UpdateProduct = () => {
         setProduct({ ...product, [name]: updatedValue });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        fetch(`http://localhost:8081/products/${productId}`, {
-            method: "PUT",
+
+        try {
+            const response = await axios.put(`http://localhost:8081/products/${productId}` , product , {
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify(product),
-        })
-        .then(response => response.json())
-        .then(() => navigate("/"))
-        .catch(error => console.log(error));
+            }
+        });
+
+        if (response.status === 200) {
+            navigate("/");
+        } else {
+            console.log(response); 
+        }
+            
+        } catch (error) {
+            console.error("Error updating product: ", error);
+            
+        }
+
+        
+
+
+        
     };
 
     return (

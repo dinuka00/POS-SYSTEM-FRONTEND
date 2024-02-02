@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import NavigationBar from './NavigationBar'; 
+import axios from "axios";
 
 const ProductsByCategory = () => {
     const { categoryId } = useParams();
@@ -9,17 +10,20 @@ const ProductsByCategory = () => {
 
     useEffect(() => {
         getProductsByCategoryId();
-    }, [categoryId]);  // Re-run the effect if categoryId changes
+    }, [categoryId]);  
 
-    const getProductsByCategoryId = () => {
-        fetch(`http://localhost:8081/categories/${categoryId}/products`)
-        .then((response) => response.json())
-        .then((data) => {
-            setProducts(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        }) 
+    const getProductsByCategoryId = async () => {
+
+        try {
+            const response = await axios.get(`http://localhost:8081/categories/${categoryId}/products`);
+    
+            setProducts(response.data);
+           // navigate(`/categories/${categoryId}/products`);
+        } catch (error) {
+            console.error(error);
+        }
+
+        
     }
 
 
@@ -45,7 +49,7 @@ const ProductsByCategory = () => {
                             <Card.Text className="bg-secondary text-white p-2">
                                 <strong>Stock:</strong> {product.qty}
                             </Card.Text>
-                            <Button variant="primary" className="mt-2">Add to Cart</Button>
+                            
                         </Card.Body>
                     </Card>
                 </Col>
