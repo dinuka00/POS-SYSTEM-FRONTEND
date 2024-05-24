@@ -29,7 +29,7 @@ const Login = () => {
 
         const response = await axios.post("http://localhost:8081/auth/login", data);
 
-        if(response.status == 200) {
+        if(response.status === 200) {
             
             localStorage.setItem("token", response.data);
 
@@ -42,6 +42,10 @@ const Login = () => {
             console.log("Login error");
         }
     }
+
+    const handleRegister = () => {
+        navigate("/register"); 
+    };
 
 
     return (
@@ -66,12 +70,13 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary">Login</button>
 
             </form>
+
+            <button className="btn btn-secondary" onClick={handleRegister}>Register</button>
+
+            <div className="mt-3 text-center">
                 
-
-
-
-
-            
+            </div>
+                
         </div>
     )
 

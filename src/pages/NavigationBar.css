@@ -1,27 +1,113 @@
+.navbar {
+    background-color: #ffffff;
+    padding: 10px;
+    width: 100%;
+    border-bottom: 2px solid #000000; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-.custom-navbar {
-    background-color: #34568B; /* Dark blue background */
-    padding: 10px 0;
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .navbar-brand {
-    color: #fff !important;
+    margin-left: 28px;
+    margin-right: 5px;
+    font-size: 25px;
+    
+}
+
+.navbar-brand .retail {
+    color: #05ac58;
+    font-weight: 800;
+}
+
+.navbar-brand .edge {
+    color:black;
+    font-weight: 800;
+}
+
+.navbar-brand a {
+    color: #016b21d3;
+    font-size: 24px;
     font-weight: bold;
-    font-size: 1.5rem;
-    transition: color 0.2s;
+    text-decoration: none;
 }
 
-.navbar-brand:hover {
-    color: #ffdd59 !important; /* Change hover color */
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    flex-grow: 1;
+    font-weight: 600;
 }
 
-.nav-item {
-    margin-left: 15px;
-    color: #E4E6E7 !important; /* Light text color for nav links */
-    font-weight: 500;
-    transition: color 0.2s;
+.navbar-menu li {
+    margin: 0 30px;
+    
 }
 
-.nav-item:hover {
-    color: #ffdd59 !important; /* Change hover color */
+.navbar-menu a {
+    color: #000000;
+    font-size: 18px;
+    text-decoration: none;
+    font-size: 20px;
+
 }
+
+.navbar-menu a:hover {
+    color: #05ac58;
+    text-decoration: underline;
+    text-decoration-color: #000000;
+    text-underline-offset: 8px;
+    border-radius: 2%;
+}
+
+.logout-icon img{
+    width: 33px ;
+    height: 33px ;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.logout-icon img:hover{
+    width: 42px ;
+    height: 42px ;
+}
+
+.navbar-profile {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.profile-image {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    margin-right: 50px;
+}
+
+/* .profile-name {
+    font-size: 18px;
+    color: #000000;
+    margin-right: 10px;
+    font-weight: 600;
+} */
+
+.profile-image:hover {
+    transform: scale(1.2);
+}
+
+/* .profile-name:hover {
+    color: #05ac58; 
+} */
