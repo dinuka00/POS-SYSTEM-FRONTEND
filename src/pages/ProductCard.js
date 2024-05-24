@@ -1,5 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "./ProductCard.css"; // Import the CSS file
 
 const ProductCard = ({ product }) => {
     let navigate = useNavigate();
@@ -9,25 +10,18 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <Card style={{ width: "18rem", margin: "10px" }}>
+        <Card className="product-card" onClick={viewProductDetails}>
             <Card.Body>
                 <Card.Title>{product.name}</Card.Title>
                 <Card.Text>
-                    {/* ID: {product.id} */}
-
                     Rs:{product.price}
                     <br />
                     Quantity: {product.qty}
                     <br />
-                    Category:   {product.categories}
-                    
+                    Category: {product.categories}
                 </Card.Text>
-                <Button variant="primary" onClick={viewProductDetails}>
-                    View Details
-                </Button>
             </Card.Body>
         </Card>
-
     );
 };
 
