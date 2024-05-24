@@ -28,7 +28,7 @@ const NavigationBar = () => {
 				<ul className="navbar-menu" >
 
 					<li>
-						<Link to="/">Home</Link>
+						<Link to="/checkout">Home</Link>
 					</li>
 
 					<li>

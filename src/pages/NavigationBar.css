@@ -82,6 +82,7 @@
 .logout-icon img:hover{
     width: 42px ;
     height: 42px ;
+    cursor: pointer;
 }
 
 .navbar-profile {
@@ -106,6 +107,7 @@
 
 .profile-image:hover {
     transform: scale(1.2);
+    cursor: pointer;
 }
 
 /* .profile-name:hover {
