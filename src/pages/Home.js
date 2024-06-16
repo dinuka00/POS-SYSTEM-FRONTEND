@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Navbar, Nav , Container, Row, Col, Form , Button , Card} from "react-bootstrap";
-import NavigationBar from './NavigationBar'; 
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Form , Button , Card} from "react-bootstrap";
+import NavigationBar from './NavigationBar';
 import axios from "axios";
+import  productData  from '../data/ProductData'
+import rice from '../assets/rice.jpg'
 
 const Home = () => {
     const [products, setProducts] = useState(null);
@@ -22,17 +24,17 @@ const Home = () => {
 
     const getProducts = async () => {
 
-        
+        setProducts(productData);
 
-        try {
-            const response = await axios.get("http://localhost:8081/products");
-            setProducts(response.data);
+        // try {
+        //     const response = await axios.get("http://localhost:8081/products");
+        //     setProducts(response.data);
 
-        } catch (error) {
-            if(error.response.status === 401) {
-                navigate("/login");
-            }
-        }
+        // } catch (error) {
+        //     if(error.response.status === 401) {
+        //         navigate("/login");
+        //     }
+        // }
     };
 
     const getCategories = async () => {
@@ -45,7 +47,7 @@ const Home = () => {
                 navigate("/login");
             }
         }
-        
+
     };
 
     const handleName = (event) => {
@@ -81,7 +83,7 @@ const Home = () => {
                     "Content-Type": "application/json",
                 }
             });
-    
+
             if (response.status === 200 || response.status === 201) {
                 setProducts([...products, response.data]);
                 alert("product added");
@@ -90,7 +92,7 @@ const Home = () => {
                 setQty('');
                 setCategoryId('');
             } else {
-                console.log(response); 
+                console.log(response);
             }
         } catch (error) {
             console.error("Error creating product: ", error);
@@ -106,11 +108,18 @@ const Home = () => {
 
         return (
             <Card style={{ width: "18rem", margin: "10px" }}>
+                
                 <Card.Body>
+                <Card.Img variant="top" src={rice}/>
                     <Card.Title>{product.name}</Card.Title>
                     <Card.Text>
-                        ID: {product.id}
-                        {/* Add other product details here */}
+
+                        Price: {product.price}
+                        <br/>
+                        Qty: {product.qty}
+                        {/* <br/>
+                        Category: {product.category ? product.category.name : "N/A"} */}
+
                     </Card.Text>
                     <Button variant="primary" onClick={viewProductDetails}>
                         View Details

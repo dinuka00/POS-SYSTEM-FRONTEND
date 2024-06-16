@@ -65,7 +65,6 @@ const Login = () => {
                     <input type="password" className="form-control" onChange={handlePassword} placeholder="Password" required/>
                 </div>
 
-                
 
                 <button type="submit" className="btn btn-primary">Login</button>
 

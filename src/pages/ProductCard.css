@@ -24,3 +24,40 @@
     line-height: 1.4;
     color: #555;
 }
+
+.product-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust the height as needed */
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* .product-price {
+    color: #016b21d3;
+    font-weight: bold;
+    font-size: 16px;
+} */
+
+.product-price {
+    color: #016b21d3;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.product-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.product-value {
+    text-align: right;
+    font-weight: bold;
+}

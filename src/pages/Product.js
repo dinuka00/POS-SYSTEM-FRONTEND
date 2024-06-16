@@ -5,6 +5,7 @@ import NavigationBar from './NavigationBar';
 import ProductCard from './ProductCard';
 import axios from "axios";
 import './Product.css';
+import productData from "../data/ProductData";
 
 const Product = () => {
 
@@ -25,15 +26,17 @@ const Product = () => {
 
     const getProducts = async () => {
 
-        try {
-            const response = await axios.get("http://localhost:8081/products");
-            setProducts(response.data);
+        setProducts(productData);
 
-        } catch (error) {
-            if (error.response.status === 401) {
-                navigate("/login");
-            }
-        }
+        // try {
+        //     const response = await axios.get("http://localhost:8081/products");
+        //     setProducts(response.data);
+
+        // } catch (error) {
+        //     if (error.response.status === 401) {
+        //         navigate("/login");
+        //     }
+        // }
     };
 
     const getCategories = async () => {
@@ -103,11 +106,10 @@ const Product = () => {
     return (
 
         <>
-            <NavigationBar />
 
             <div className="container">
 
-                <h1 className="mb-4">Products</h1>
+                <NavigationBar />
 
                 <div className="product-container">
 
@@ -124,7 +126,7 @@ const Product = () => {
                         ))}
                     </div>
 
-                    <div className="add-product">
+                    {/* <div className="add-product">
 
                         <h2 className="mb-4 text-center">Add New Product</h2>
 
@@ -169,6 +171,63 @@ const Product = () => {
 
                         </form>
 
+                    </div> */}
+
+                    <div className="add-product">
+
+                        <form onSubmit={handleSubmit} className="product-form">
+
+                            <h2 className="mb-4 text-center product-header">Add New Product</h2>
+
+                            <Form.Group className="mb-3">
+
+                                <Form.Label className="product-label">Product Name</Form.Label>
+                                <Form.Control type="text" required onChange={handleName} value={name} className="product-input" />
+
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+
+                                <Form.Label className="product-label">Product Price</Form.Label>
+                                <Form.Control type="number" required onChange={handlePrice} value={price} className="product-input" />
+
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+
+                                <Form.Label className="product-label">Product Qty</Form.Label>
+                                <Form.Control type="number" required onChange={handleQty} value={qty} className="product-input" />
+
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+
+                                <Form.Label className="product-label">Category</Form.Label>
+                                <Form.Select required onChange={handleCategory} value={categoryId} className="product-input">
+                                    <option value="">Please Select</option>
+                                    {categories &&
+                                        categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                </Form.Select>
+
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+
+                                <Form.Label className="product-label">Product Image</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    accept="image/*"
+                                    // onChange={handleImage}
+                                    className="product-input"
+                                />
+
+                            </Form.Group>
+                            <button type="submit" className="product-button">Save Product</button>
+                        </form>
                     </div>
 
                 </div>
